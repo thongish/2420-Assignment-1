@@ -14,9 +14,12 @@
 This tutorial will walk you through the process of using the tools `doctl`, and `cloud-init` to set up an Arch Linux droplet on DigitalOcean. 
 
 **Things we'll need:**
-- A local machine running the cloud version of Arch Linux
+<!-- - A local machine running the cloud version of Arch Linux -->
 - A DigitalOcean account
+- An existing Arch Linux droplet
 
+>[!TIP]
+>You will be copying and pasting into your terminal frequently throughout this tutorial. If you're using Command Prompt or Windows Powershell, you can enable copy/paste by clicking the icon on the top left of your terminal and choosing the **Properties** option. Once inside the **Properties** window, make sure to check the **Use Ctrl+Shift+C/V as Copy/Paste** checkbox.
 ---
 
 # Installing and setting up doctl
@@ -81,7 +84,10 @@ Now that you have the Arch Linux cloud image link copied, we can run this next c
 doctl compute image create <custom image name> --image-url <Arch Linux cloud image URL ending in .qcow2> --region sfo3 --image-distribution "Arch Linux"
 ```
 >[!NOTE]
->For the purposes of this tutorial, we used the `sfo3` region slug to fulfill the `--region` argument. You can find a list of region slugs here: https://docs.digitalocean.com/platform/regional-availability/#app-platform-availability
+>For the purposes of this tutorial, we used the `sfo3` region slug to fulfill the `--region` argument. You can find a list of region slugs by running this command: 
+>```
+>doctl compute region list
+>```
 
 To verify that your custom image was successfully uploaded to DigitalOcean, run this command:
 ```
@@ -96,6 +102,7 @@ You should see an output that looks something like this:
 ---
 
 # Setting up SSH keys
+
 
 # Configuring cloud-init
 
