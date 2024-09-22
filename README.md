@@ -42,7 +42,8 @@ Once you've installed `doctl`, we'll have to create a DigitalOcean Personal Acce
 
 >[!IMPORTANT]
 >Once you've finished those steps, your token will be generated and you'll be given a token string. The token string will be shown to you only **once**. Ensure you copy it and store it in a safe place as you'll need it to authenticate `doctl`.
-![Screenshot of token string](/assets/token_string.png)
+\
+> ![Screenshot of token string](/assets/token_string.png)
 
 Next, we'll give `doctl` your newly generated token string. To do that, run this command with a context name of your choice:
 ```
