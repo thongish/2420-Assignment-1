@@ -46,7 +46,7 @@ Once you've installed `doctl`, we'll have to create a DigitalOcean Personal Acce
 \
 > ![Screenshot of token string](/assets/token_string.png)
 
-Next, we'll give `doctl` your newly generated token string. To do that, run this command with a context name of your choice:
+Next, we'll give `doctl` your newly generated token string. To do that, run this command:
 ```
 doctl auth init
 ```
