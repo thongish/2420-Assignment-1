@@ -19,6 +19,51 @@ This tutorial will walk you through the process of using the tools `doctl`[^1], 
 - A DigitalOcean account
 
 # Installing and setting up doctl
+`doctl` is the official DigitalOcean command line interface that allows you to do things like creating, configuring, and destroying DigitalOcean resources, such as Droplets. 
+
+To get started, run the command:
+```
+sudo pacman -S doctl
+```
+Once you've installed `doctl`, we'll have to create a DigitalOcean Personal Access Token. This token will give `doctl` access to your DigitalOcean account.
+
+1. Login to your DigitalOcean account
+2. Find the navigation bar on the left and scroll down to the bottom until you see API
+
+![screenshot of DigitalOcean navigatin bar pointing to API link](./assets/API.png)
+1. Click **API**
+2. Click **Generate New Token**
+3. Type in a token name
+4. Choose your preferred token expiration date
+5. Click **Full Access** in the **Scopes** section
+6. Click **Generate Token**
+
+![Screenshot of DigitalOcean generate token](./assets/Token.png)
+
+>[!IMPORTANT]
+>Once you've finished those steps, your token will be generated and you'll be given a token string. 
+>The token string will be shown to you only **once**. Ensure you copy it and store it in a safe place as you'll need it to authenticate `doctl`.
+>![Screenshot of token string](/assets/token_string.png)
+
+Next, we'll give `doctl` your newly generated token string. To do that, run this command with a context name of your choice:
+```
+doctl auth init
+```
+You will be prompted to enter your access token string.
+![Screenshot of token prompt in terminal](/assets/token_prompt.png)
+
+Now that your token has been validated, let's check that `doctl` has access to your DigitalOcean account.
+
+Type in this command:
+```
+doctl account get
+```
+You should be faced with an output that looks like this:
+```
+Email                      Droplet Limit    Email Verified    UUID                                        Status
+sammy@example.org          10               true              3a56c5e109736b50e823eaebca85708ca0e5087c    active
+```
+**Congratulations! You've successfully set up `doctl`!**
 
 # Uploading a custom image to DigitalOcean
 
