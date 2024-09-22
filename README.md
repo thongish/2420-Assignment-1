@@ -17,6 +17,7 @@ This tutorial will walk you through the process of using the tools `doctl`, and 
 <!-- - A local machine running the cloud version of Arch Linux -->
 - A DigitalOcean account
 - An existing Arch Linux droplet
+- A local machine running Microsoft Windows 10/11
 
 >[!TIP]
 >You will be copying and pasting into your terminal frequently throughout this tutorial. If you're using Command Prompt or Windows Powershell, you can enable copy/paste by clicking the icon on the top left of your terminal and choosing the **Properties** option. Once inside the **Properties** window, make sure to check the **Use Ctrl+Shift+C/V as Copy/Paste** checkbox.
@@ -102,7 +103,24 @@ You should see an output that looks something like this:
 ---
 
 # Setting up SSH keys
+Secure shell (SSH) is a network protocol used to initiate secure connections over an unsecured network. Through the secure connection, you can do things such as sending commands or transferring files, and more. SSH will be essential to accessing your DigitalOcean droplets.
 
+We'll get started by creating an SSH public/private key-pair on your local machine using this command in your preferred terminal:
+```
+ssh-keygen -t ed25519 -f C:\Users\<your username>\.ssh\<key name> -C <youremail@email.com>
+```
+>[!TIP]
+>You will often see some word or phrase between two angle brackets like this, `<word or phrase>`, throughout this tutorial. This means you need to type your own text here correlating to the word/phrase.
+\
+> Example: `ssh-keygen -t ed25519 -f C:\Users\Bob\.ssh\bobs-key -C "bob89@gmail.com"`
+
+Once you've generated the public/private key-pair, you'll be able to find both keys in the .ssh folder within your user folder. They will look something like this: `bobs-key` and `bobs-key.pub`. `bobs-key` will stay on your local machine, while `bobs-key.pub` will be given to your DigitalOcean droplet. 
+
+SSH will use this pair of keys to send back-and-forth encrypted messages from your local machine to the DigitalOcean droplet. The messages can only be decrypted if the public and private keys match. 
+
+Now that you have new a new pair of SSH keys, we can head on over to our Arch Linux DigitalOcean droplet.
+
+---
 
 # Configuring cloud-init
 
