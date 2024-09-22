@@ -31,12 +31,13 @@ Once you've installed `doctl`, we'll have to create a DigitalOcean Personal Acce
 2. Find the navigation bar on the left and scroll down to the bottom until you see API
 
 ![screenshot of DigitalOcean navigatin bar pointing to API link](./assets/API.png)
-1. Click **API**
-2. Click **Generate New Token**
-3. Type in a token name
-4. Choose your preferred token expiration date
-5. Click **Full Access** in the **Scopes** section
-6. Click **Generate Token**
+
+3. Click **API**
+4. Click **Generate New Token**
+5. Type in a token name
+6. Choose your preferred token expiration date
+7. Click **Full Access** in the **Scopes** section
+8. Click **Generate Token**
 
 ![Screenshot of DigitalOcean generate token](./assets/Token.png)
 
