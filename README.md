@@ -17,6 +17,8 @@ This tutorial will walk you through the process of using the tools `doctl`, and 
 - A local machine running the cloud version of Arch Linux
 - A DigitalOcean account
 
+---
+
 # Installing and setting up doctl
 `doctl` is the official DigitalOcean command line interface that allows you to do things like creating, configuring, and destroying DigitalOcean resources, such as Droplets. 
 
@@ -65,6 +67,8 @@ sammy@example.org          10               true              3a56c5e109736b50e8
 ```
 **Congratulations! You've successfully set up `doctl`!**
 
+---
+
 # Uploading a custom image to DigitalOcean
 Before we can upload a custom image to DigitalOcean, we'll need to download an Arch Linux cloud image. You can find the latest image here: https://geo.mirror.pkgbuild.com/images/latest/
 
@@ -88,6 +92,8 @@ You should see an output that looks something like this:
 165999695    Image-name                                          custom         Arch Linux
 ```
 **Congrats! You've successfully uploaded a custom Arch Linux cloud image to your DigitalOcean account.**
+
+---
 
 # Setting up SSH keys
 
