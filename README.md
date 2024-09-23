@@ -14,9 +14,9 @@ This tutorial will walk you through the process of using the tools `doctl`, and 
 
 **Things we'll need:**
 <!-- - A local machine running the cloud version of Arch Linux -->
+<!-- - A local machine running Microsoft Windows 10/11 -->
 - A DigitalOcean account
 - An existing Arch Linux droplet
-- A local machine running Microsoft Windows 10/11
 - Neovim (or your preferred text editor)
 
 >[!TIP]
@@ -102,7 +102,7 @@ You should see an output that looks something like this:
 
 ---
 
-<!--I need to move this later and add part about uploading pub key to DigitalOcean and rewrite from droplet perspective not windows-->
+<!--add part about uploading pub key to DigitalOcean and rewrite from droplet perspective not windows-->
 # Setting up SSH keys
 Secure shell (SSH) is a network protocol used to initiate secure connections over an unsecured network. Through the secure connection, you can do things such as sending commands or transferring files, and more. SSH will be essential to accessing your DigitalOcean droplets.
 
@@ -202,7 +202,35 @@ doctl compute droplet create --image <image ID> --size s-1vcpu-1gb --ssh-keys <S
 ---
 
 # Verify everything worked
+Now that your droplet is up and running, you should try and connect to it via SSH. 
 
+First, you'll need to get the IPv4 address your droplet is running on. You can use this command to list your running droplets and find the IPv4 address:
+```
+doctl compute droplet list
+```
+Once you have the IPv4 address you can immediately try using SSH to connect to your droplet with this command:
+```
+ssh -i ~/.ssh/<private key> <username>@<IPv4 address>
+```
+But you can make this easier by creating an SSH configuration file and entering your droplet's information into it. Run this command to create your own SH configuration file:
+```
+nvim ~/.ssh/config
+```
+Past this text into your config file, replacing the necessary fields:
+```
+Host <droplet alias>
+  HostName <droplet IPv4 address>
+  User <username>
+  PreferredAuthentications publickey
+  IdentityFile ~/.ssh/<private key>
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+```
+Now you should be able to connect to your by simply running this command:
+```
+ssh <droplet alias>
+```
+**Congrats! You've made it to the end of the tutorial!**
 <!--
 [^1]: doctl is a command-line interface tool used to interact with DigitalOcean's cloud services.
 [^2]: cloud-init is an industry standard tool used for cloud instance initialization. 
