@@ -4,8 +4,8 @@
 - [Introduction](#introduction)
 - [Installing and setting up doctl](#installing-and-setting-up-doctl)
 - [Uploading a custom image to DigitalOcean](#uploading-a-custom-image-to-digitalocean)
-- [Configuring cloud-init](#configuring-cloud-init)
 - [Setting up SSH keys](#setting-up-ssh-keys)
+- [Configuring cloud-init](#configuring-cloud-init)
 - [Deploying the droplet](#deploying-the-droplet)
 - [Verify everything worked](#verify-everything-worked)
 
@@ -215,7 +215,7 @@ But you can make this easier by creating an SSH configuration file and entering 
 ```
 nvim ~/.ssh/config
 ```
-Past this text into your config file, replacing the necessary fields:
+Paste this text into your config file, replacing the necessary fields:
 ```
 Host <droplet alias>
   HostName <droplet IPv4 address>
@@ -229,7 +229,7 @@ Now you should be able to connect to your by simply running this command:
 ```
 ssh <droplet alias>
 ```
-**Congrats! You've made it to the end of the t**
+**Congrats! You've made it to the end of the tutorial!**
 <!--
 [^1]: doctl is a command-line interface tool used to interact with DigitalOcean's cloud services.
 [^2]: cloud-init is an industry standard tool used for cloud instance initialization. 
