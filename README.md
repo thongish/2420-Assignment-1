@@ -1,12 +1,11 @@
 # Setting up a DigitalOcean droplet using doctl and cloud-init
 
 # Table of contents
-- [Table of contents](#table-of-contents)
 - [Introduction](#introduction)
-- [Setting up SSH keys](#setting-up-ssh-keys)
 - [Installing and setting up doctl](#installing-and-setting-up-doctl)
 - [Uploading a custom image to DigitalOcean](#uploading-a-custom-image-to-digitalocean)
 - [Configuring cloud-init](#configuring-cloud-init)
+- [Setting up SSH keys](#setting-up-ssh-keys)
 - [Deploying the droplet](#deploying-the-droplet)
 - [Verify everything worked](#verify-everything-worked)
 
@@ -23,7 +22,7 @@ This tutorial will walk you through the process of using the tools `doctl`, and 
 >[!TIP]
 >You will be copying and pasting into your terminal frequently throughout this tutorial. If you're using Command Prompt or Windows Powershell, you can enable copy/paste by clicking the icon on the top left of your terminal and choosing the **Properties** option. Once inside the **Properties** window, make sure to check the **Use Ctrl+Shift+C/V as Copy/Paste** checkbox.
 ---
-
+<!--I need to move this later and add part about uploading pub key to DigitalOcean -->
 # Setting up SSH keys
 Secure shell (SSH) is a network protocol used to initiate secure connections over an unsecured network. Through the secure connection, you can do things such as sending commands or transferring files, and more. SSH will be essential to accessing your DigitalOcean droplets.
 
@@ -173,7 +172,33 @@ disable_root: true
 ---
 
 # Deploying the droplet
+Before running the command to deploy the droplet, you'll need to run some preliminary commands to get the IDs of your uploaded SSH key, custom Arch Linux image ID, and optionally, the region slug.
 
+1. This command will list your custom images with ID being the first piece of text:
+```
+doctl compute image list | grep custom
+```
+
+2. This command will list your SSH keys and their IDs:
+```
+doctl compute ssh-key list
+```
+
+3. This command will give you a list of valid region slugs:
+```
+doctl compute region list
+```
+Once you have all the necessary information you need, you can run this command:
+
+```
+doctl compute droplet create --image <image ID> --size s-1vcpu-1gb --ssh-keys <SSH key ID> --region <your preferred region slug> --user-data-file ~/cloud-config.yml --wait <droplet name>
+```
+>[!NOTE]
+>It may seem like your terminal froze, but just let it work and you'll eventually be greeted with an output detailing the information about the droplet you just created.
+
+**Congrats! You just deployed a droplet using `doctl` and `cloud-init`! Now you just need to make sure everything worked.**
+
+---
 
 # Verify everything worked
 
