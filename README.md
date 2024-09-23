@@ -18,6 +18,7 @@ This tutorial will walk you through the process of using the tools `doctl`, and 
 - A DigitalOcean account
 - An existing Arch Linux droplet
 - A local machine running Microsoft Windows 10/11
+- Neovim (or your preferred text editor)
 
 >[!TIP]
 >You will be copying and pasting into your terminal frequently throughout this tutorial. If you're using Command Prompt or Windows Powershell, you can enable copy/paste by clicking the icon on the top left of your terminal and choosing the **Properties** option. Once inside the **Properties** window, make sure to check the **Use Ctrl+Shift+C/V as Copy/Paste** checkbox.
@@ -39,7 +40,8 @@ Once you've generated the public/private key-pair, you'll be able to find both k
 
 SSH will use this pair of keys to send back-and-forth encrypted messages from your local machine to the DigitalOcean droplet. The messages can only be decrypted if the public and private keys match. 
 
-**Now that you have new a new pair of SSH keys, we can head on over to our Arch Linux DigitalOcean droplet.**
+
+**Now that you have new a new pair of SSH keys, you can head on over to your Arch Linux DigitalOcean droplet.**
 
 ---
 
@@ -123,8 +125,55 @@ You should see an output that looks something like this:
 ---
 
 # Configuring cloud-init
+`Cloud-init` is a tool used to automate the initializtion of cloud instances such as the Arch Linux droplet you'll be deploying at the end of this tutorial. `Cloud-init` will allow your droplet to automatically create users, install software, authorize SSH keys, run scripts, and more. 
+
+To get started, let's create and open a `cloud-init` configuration file in neovim:
+```
+nvim ~/cloud-config.yml
+```
+>[!NOTE]
+>If that command doesn't work, you might not have neovim installed on your system. Run the command:
+>```
+>sudo pacman -S neovim
+>```
+
+Next, copy and paste this code into your file, changing the necessary fields:
+```
+#cloud-config
+users:
+  - name: <user name>
+    primary_group: <user group>
+    groups: wheel
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh-authorized-keys:
+      - ssh-ed25519 <your ssh public key string>
+
+packages:
+  - ripgrep
+  - rsync
+  - neovim
+  - fd
+  - less
+  - man-db
+  - bash-completion
+  - tmux
+
+disable_root: true
+```
+>[!NOTE]
+>You can run the command:
+>```
+>cat ~/.ssh/<your ssh key ending in .pub>
+>```
+>And then select all of the displayed content and press Ctrl+Shift+C to copy it to your clipboard.
+
+**Now that you have a cloud-init configuration file, we can move on to deploying the droplet!**
+
+---
 
 # Deploying the droplet
+
 
 # Verify everything worked
 
