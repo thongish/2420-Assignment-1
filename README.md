@@ -80,6 +80,9 @@ From the repository linked earlier, you'll want to copy the link to the cloud im
 
 ![Screenshot of Arch Linux cloud image link](/assets/cloud_image_1.png)
 
+>[!TIP]
+>You will often see some word or phrase between two angle brackets like this, `<word or phrase>`, throughout this tutorial. This means you need to type your own text here correlating to the word/phrase.
+
 Now that you have the Arch Linux cloud image link copied, we can run this next command to upload the image to your DigitalOcean account:
 ```
 doctl compute image create <custom image name> --image-url <Arch Linux cloud image URL ending in .qcow2> --region sfo3 --image-distribution "Arch Linux"
@@ -110,10 +113,6 @@ We'll get started by creating an SSH public/private key-pair on your local machi
 ```
 ssh-keygen -t ed25519 -f C:\Users\<your username>\.ssh\<key name> -C <youremail@email.com>
 ```
->[!TIP]
->You will often see some word or phrase between two angle brackets like this, `<word or phrase>`, throughout this tutorial. This means you need to type your own text here correlating to the word/phrase.
-\
-> Example: `ssh-keygen -t ed25519 -f C:\Users\Bob\.ssh\bobs-key -C "bob89@gmail.com"`
 
 Once you've generated the public/private key-pair, you'll be able to find both keys in the .ssh folder within your user folder. They will look something like this: `bobs-key` and `bobs-key.pub`. `bobs-key` will stay on your local machine, while `bobs-key.pub` will be given to your DigitalOcean droplet. 
 
@@ -230,7 +229,7 @@ Now you should be able to connect to your by simply running this command:
 ```
 ssh <droplet alias>
 ```
-**Congrats! You've made it to the end of the tutorial!**
+**Congrats! You've made it to the end of the t**
 <!--
 [^1]: doctl is a command-line interface tool used to interact with DigitalOcean's cloud services.
 [^2]: cloud-init is an industry standard tool used for cloud instance initialization. 
