@@ -95,11 +95,12 @@ doctl compute image create <custom image name> --image-url <Arch Linux cloud ima
 
 To verify that your custom image was successfully uploaded to DigitalOcean, run this command:
 ```
-doctl compute image list | grep custom
+doctl compute image list-user
 ```
 You should see an output that looks something like this:
 ```
-165999695    Image-name                                          custom         Arch Linux
+ID           Name          Type          Distribution    
+165123456    Your Image    custom        Arch Linux
 ```
 **Congrats! You've successfully uploaded a custom Arch Linux cloud image to your DigitalOcean account.**
 
@@ -109,12 +110,18 @@ You should see an output that looks something like this:
 # Setting up SSH keys
 Secure shell (SSH) is a network protocol used to initiate secure connections over an unsecured network. Through the secure connection, you can do things such as sending commands or transferring files, and more. SSH will be essential to accessing your DigitalOcean droplets.
 
-We'll get started by creating an SSH public/private key-pair on your local machine using this command in your preferred terminal:
+We'll get started by creating an SSH public/private key-pair on your Arch Linux droplet using this command::
 ```
 ssh-keygen -t ed25519 -f C:\Users\<your username>\.ssh\<key name> -C <youremail@email.com>
 ```
+You will be prompted to enter a passphrase. This passphrase will be used every time you connect to your droplet via SSH.
 
-Once you've generated the public/private key-pair, you'll be able to find both keys in the .ssh folder within your user folder. They will look something like this: `bobs-key` and `bobs-key.pub`. `bobs-key` will stay on your local machine, while `bobs-key.pub` will be given to your DigitalOcean droplet. 
+Once you've generated the public/private key-pair, you'll be able to find both keys in the .ssh folder within your user folder. They will look something like this: `bobs-key` and `bobs-key.pub`. `bobs-key` (the private key) will stay on your Arch Linux droplet, while `bobs-key.pub` will be uploaded to DigitalOcean to be used by your droplets.
+
+You can do that by running this command:
+```
+doctl compute ssh-key import <key identifier> --public-key-file ~/.ssh/<key name>.pub
+```
 
 SSH will use this pair of keys to send back-and-forth encrypted messages from your local machine to the DigitalOcean droplet. The messages can only be decrypted if the public and private keys match. 
 
@@ -176,7 +183,7 @@ Before running the command to deploy the droplet, you'll need to run some prelim
 
 1. This command will list your custom images with ID being the first piece of text:
 ```
-doctl compute image list | grep custom
+doctl compute image list-user
 ```
 
 2. This command will list your SSH keys and their IDs:
