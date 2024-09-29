@@ -3,7 +3,6 @@
 # Table of contents
 - [Introduction](#introduction)
 - [Installing and setting up doctl](#installing-and-setting-up-doctl)
-- [Uploading a custom image to DigitalOcean](#uploading-a-custom-image-to-digitalocean)
 - [Setting up SSH keys](#setting-up-ssh-keys)
 - [Configuring cloud-init](#configuring-cloud-init)
 - [Deploying the droplet](#deploying-the-droplet)
@@ -24,7 +23,7 @@ This tutorial will walk you through the process of using the tools `doctl`, and 
 # Installing and setting up `doctl`
 `doctl` is the official DigitalOcean command line interface that allows you to do things like creating, configuring, and destroying DigitalOcean resources, such as Droplets[^1]. 
 
-To get started, run the command:
+To get started, run this command on your existing Arch Linux droplet:
 ```
 sudo pacman -S doctl
 ```
@@ -232,7 +231,7 @@ disable_root: true
 
 </details>
 
-After you've pasted the text above, save and exit your file by typing `:wq` and pressing **ENTER**.
+After you've pasted the text above, press **ESC** on your keyboard to exit **INSERT** mode. Save and exit your file by typing `:wq` and pressing **ENTER**.
 
 
 >[!NOTE]
@@ -304,7 +303,7 @@ doctl compute droplet create --image <image ID> --size s-1vcpu-1gb --ssh-keys <S
 <details>
 <summary>Command details</summary>
 
-This command will create a new droplet on your DigitalOcean account using a custom image, ssh keys, and cloud-init configuration file.
+This command will create a new droplet on your DigitalOcean account using a custom image, ssh key, and cloud-init configuration file.
 - `droplet` - An option for `compute` that allows the user to manage DigitalOcean droplets[^7].
 - `create` - An option for `droplet` to tell `doctl` to create a new droplet[^16].
 - `--image` - A required option for `droplet create` to specify an operating system image the droplet will use[^17].
@@ -370,7 +369,9 @@ Type in "yes" and press **ENTER**.
 
 ---
 
-But you can make this easier by creating an SSH configuration file and entering your droplet's information into it. Run this command to create your own SSH configuration file:
+But you can make this easier by creating an SSH configuration file and entering your droplet's information into it. 
+
+Exit your new droplet by typing the command `exit`, then run this command to create your own SSH configuration file:
 ```
 nvim ~/.ssh/config
 ```
