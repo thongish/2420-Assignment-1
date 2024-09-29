@@ -162,19 +162,28 @@ You should see a list of your SSH keys like this:
 ---
 
 # Configuring cloud-init
-`Cloud-init` is a tool used to automate the initializtion of cloud instances such as the Arch Linux droplet you'll be deploying at the end of this tutorial. `Cloud-init` will allow your droplet to automatically create users, install software, authorize SSH keys, run scripts, and more[^10]. 
+`Cloud-init` is a tool used to automate the initializtion of cloud instances such as the Arch Linux droplet you'll be deploying at the end of this tutorial[^10]. `Cloud-init` will allow your droplet to automatically create users, install software, authorize SSH keys, run scripts, and more[^10]. 
 
 To get started, let's create and open a `cloud-init` configuration file in neovim:
 ```
 nvim ~/cloud-config.yml
 ```
+<details>
+<summary>Command details</summary>
+
+- `nvim` - This will run the program Neovim
+- `~/cloud-config.yml` - The argument passed to Neovim. It tells Neovim to either open the file at this location, or create and open the file at this location if it doesn't already exist.
+
+</details>
+
+
 >[!NOTE]
 >If that command doesn't work, you might not have neovim installed on your system. Run the command:
 >```
 >sudo pacman -S neovim
 >```
 
-Next, copy and paste this code into your file, changing the necessary fields:
+Next, copy and paste this code into your file by pressing **i** on your keyboard to enter **INSERT** mode. Replacing the necessary fields:
 ```
 #cloud-config
 users:
@@ -184,7 +193,7 @@ users:
     shell: /bin/bash
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     ssh-authorized-keys:
-      - ssh-ed25519 <your ssh public key string>
+      - <your ssh public key string>
 
 packages:
   - ripgrep
@@ -198,12 +207,51 @@ packages:
 
 disable_root: true
 ```
+<details>
+<summary>cloud-config.yml details</summary>
+
+- `#cloud-config` - This is NOT a comment. This line tells `cloud-init` that this file is a cloud config file.
+- `users:` - This line will tell `cloud-init` to add users to the system[^11].
+- `- name: <username>` - This line begins the entry for a new user you want to add to your system. Options configured underneath this line will be associated with this specific user.
+- `primary_group: <user group>` - This line will assign a primary group to the user. The primary group is the group that Linux assigns to files that the user creates[^12]. 
+  - You should generally name the primary group the same as the user username.
+- `groups: wheel` - This line will assign the user to additional groups[^12].
+  - The **wheel** group essentially gives the user access to the `sudo` command.
+- `shell: /bin/bash` - This line assigns the default shell for the user[^12]. In this case, we've assigned the user the Bash shell.
+- `sudo: ['ALL=(ALL) NOPASSWD:ALL']` - This line accepts a sudo "rule string"[^12].
+  - The "rule string" `['ALL=(ALL) NOPASSWD:ALL']` gives the user access to `sudo` commands without having to enter the root password.
+- `ssh-authorized-keys:` - This line will add a public key to the user's authorized_keys file, allowing access to the system via SSH key-pair[^12].
+- `packages:` - This line will tell `cloud-init` to install the following packages.
+- `- ripgrep`, `- rsync`, `- neovim`... - These are packages you want `cloud-init` to install on your system.
+- `disable_root: true` - This disables the ability for the user to SSH into the cloud instance as the root user[^13].
+
+</details>
+
+After you've pasted the text above, save and exit your file by typing `:wq` and pressing **ENTER**.
+
+
 >[!NOTE]
 >You can run the command:
 >```
 >cat ~/.ssh/<your ssh key ending in .pub>
 >```
->And then select all of the displayed content and press Ctrl+Shift+C to copy it to your clipboard.
+>And then select all of the displayed content and press Ctrl+Shift+C to copy it to your clipboard to paste it into your cloud-config.yml file.
+
+Once you're finished configuring your cloud-config.yml file, you can type the command:
+```
+cat ~/cloud-config.yml
+```
+<details>
+<summary>Command details</summary>
+
+- `cat` - A tool used to read and output the contents of a given file.
+- `~/.ssh/cloud-config.yml` - The argument given to `cat` to read.
+
+</details>
+
+It should look something like this:
+
+![Screenshot of cat ~/cloud-config.yml](/assets/cloud-config.png)
 
 **Now that you have a cloud-init configuration file, we can move on to deploying the droplet!**
 
@@ -279,3 +327,6 @@ ssh <droplet alias>
 [^8]: https://docs.digitalocean.com/reference/doctl/reference/compute/ssh-key/
 [^9]: https://docs.digitalocean.com/reference/doctl/reference/compute/ssh-key/import/
 [^10]: https://cloudinit.readthedocs.io/en/latest/explanation/introduction.html
+[^11]: https://cloudinit.readthedocs.io/en/latest/reference/examples.html
+[^12]: https://www.baeldung.com/linux/primary-vs-secondary-groups
+[^13]: https://cloudinit.readthedocs.io/en/latest/reference/base_config_reference.html
