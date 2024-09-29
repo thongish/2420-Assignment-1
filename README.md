@@ -98,39 +98,6 @@ sammy@example.org          10               true              3a56c5e109736b50e8
 
 ---
 
-# Uploading a custom image to DigitalOcean
-Before we can upload a custom image to DigitalOcean, we'll need to download an Arch Linux cloud image. You can find the latest image here: https://geo.mirror.pkgbuild.com/images/latest/
-
-From the repository linked earlier, you'll want to copy the link to the cloud image ending in `.qcow2`.
-
-![Screenshot of Arch Linux cloud image link](/assets/cloud_image_1.png)
-
->[!TIP]
->You will often see some word or phrase between two angle brackets like this, `<word or phrase>`, throughout this tutorial. This means you need to type your own text here corresponding to the word/phrase.
-
-Now that you have the Arch Linux cloud image link copied, we can run this next command to upload the image to your DigitalOcean account:
-```
-doctl compute image create <custom image name> --image-url <Arch Linux cloud image URL ending in .qcow2> --region sfo3 --image-distribution "Arch Linux"
-```
->[!NOTE]
->For the purposes of this tutorial, we used the `sfo3` region slug to fulfill the `--region` argument. You can find a list of region slugs by running this command: 
->```
->doctl compute region list
->```
-
-To verify that your custom image was successfully uploaded to DigitalOcean, run this command:
-```
-doctl compute image list-user
-```
-You should see an output that looks something like this:
-```
-ID           Name          Type          Distribution    
-165123456    Your Image    custom        Arch Linux
-```
-**Congrats! You've successfully uploaded a custom Arch Linux cloud image to your DigitalOcean account.**
-
----
-
 <!--add part about uploading pub key to DigitalOcean and rewrite from droplet perspective not windows-->
 # Setting up SSH keys
 Secure shell (SSH) is a network protocol used to initiate secure connections over an unsecured network. Through the secure connection, you can do things such as sending commands or transferring files, and more. SSH will be essential to accessing your DigitalOcean droplets.
