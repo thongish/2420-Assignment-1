@@ -98,32 +98,71 @@ sammy@example.org          10               true              3a56c5e109736b50e8
 
 ---
 
-<!--add part about uploading pub key to DigitalOcean and rewrite from droplet perspective not windows-->
 # Setting up SSH keys
-Secure shell (SSH) is a network protocol used to initiate secure connections over an unsecured network. Through the secure connection, you can do things such as sending commands or transferring files, and more. SSH will be essential to accessing your DigitalOcean droplets.
+Secure shell (SSH) is a network protocol used to initiate secure connections over an unsecured network[^5]. Through the secure connection, you can do things such as sending commands or transferring files, and more[^5]. SSH will be essential to accessing your DigitalOcean droplets.
+
+>[!TIP]
+>You will often see some word or phrase between two angle brackets like this, `<word or phrase>`, throughout this tutorial. This means you need to type your own text here corresponding to the word/phrase.
 
 We'll get started by creating an SSH public/private key-pair on your Arch Linux droplet using this command::
 ```
 ssh-keygen -t ed25519 -f ~/.ssh/<key name> -C <youremail@email.com>
 ```
-You will be prompted to enter a passphrase. This passphrase will be used every time you connect to your droplet via SSH.
+<details>
+<summary>Command details</summary>
+
+- `ssh-keygen` - A tool for creating new SSH key-pairs.
+- `-t` - An option for `ssh-keygen` that allows you to choose your preferred encryption algorithm 
+- `ed25519`- The argument for `-t` which is a new algorithm added to OpenSSH[^6].
+- `-f` - An option for `ssh-keygen` that allows you to specify a file path and name[^6].
+- `~/.ssh/<key name>` - The argument given to `-f`. `<key name>` should be replaced with a name of your choice.
+- `-C` - An option for `ssh-keygen` that allows you to add a comment to your SSH key-pair. You can type anything you want here, but for this tutorial we'll be using your email.
+- `<youremail@email.com>` - The argument given to `-C`. Enter your email here.
+
+</details>
+
+You will be prompted to enter a passphrase. This passphrase will be used every time you connect to your droplet via SSH. If you don't want to use a password, you can just leave the prompt blank and press **ENTER** twice.
 
 Once you've generated the public/private key-pair, you'll be able to find both keys in the .ssh folder within your user folder. They will look something like this: `bobs-key` and `bobs-key.pub`. `bobs-key` (the private key) will stay on your Arch Linux droplet, while `bobs-key.pub` will be uploaded to DigitalOcean to be used by your droplets.
 
-You can do that by running this command:
+You can upload your public key to DigitalOcean by running this command:
 ```
 doctl compute ssh-key import <key identifier> --public-key-file ~/.ssh/<key name>.pub
 ```
+<details>
+<summary>Command details</summary>
 
-SSH will use this pair of keys to send back-and-forth encrypted messages from your local machine to the DigitalOcean droplet. The messages can only be decrypted if the public and private keys match. 
+- `compute` - An option for `doctl` that lets the user use subcommands to manage DigitalOcean resources[^7].
+- `ssh-key` - An option for `compute` that lets the user manage their SSH keys[^7].
+- `import` - An option for `ssh-key` that will import an SSH public key from your computer to your DigitalOcean account[^8].
+- `<key identifier>` - An argument for `ssh-key import`. This is how you will distinguish this specific key between other keys on your DigitalOcean account.
+- `--public-key-file` - An required option for `import` to specify your public key path on your system[^9].
+- `~/.ssh/<key name>.pub` - An argument for `--public-key-file`. Enter the path to your public key you created earlier here.
 
+</details>
+
+SSH is a more secure method of authentication than a regular username and password because SSH will essentially use this pair of keys to send back-and-forth encrypted messages from your local machine to the DigitalOcean droplet. The messages can only be decrypted if the public and private keys match[^5]. 
+
+Now use this command to verify your SSH public key has been uploaded to your DigitalOcean account:
+```
+doctl compute ssh-key list
+```
+<details>
+<summary>Command details</summary>
+
+- `list` - An option for `ssh-key` that will list all SSH keys associated with your DigitalOcean account[^8].
+
+</details>
+
+You should see a list of your SSH keys like this:
+![Screenshot of SSH key list](/assets/key-list.png)
 
 **Now that you have new a new pair of SSH keys, you can head on over to your Arch Linux DigitalOcean droplet.**
 
 ---
 
 # Configuring cloud-init
-`Cloud-init` is a tool used to automate the initializtion of cloud instances such as the Arch Linux droplet you'll be deploying at the end of this tutorial. `Cloud-init` will allow your droplet to automatically create users, install software, authorize SSH keys, run scripts, and more. 
+`Cloud-init` is a tool used to automate the initializtion of cloud instances such as the Arch Linux droplet you'll be deploying at the end of this tutorial. `Cloud-init` will allow your droplet to automatically create users, install software, authorize SSH keys, run scripts, and more[^10]. 
 
 To get started, let's create and open a `cloud-init` configuration file in neovim:
 ```
@@ -234,3 +273,9 @@ ssh <droplet alias>
 [^2]: https://man.archlinux.org/man/pacman.8
 [^3]: https://docs.digitalocean.com/reference/doctl/reference/auth/
 [^4]: https://docs.digitalocean.com/reference/doctl/reference/account/
+[^5]: https://www.cloudflare.com/learning/access-management/what-is-ssh/
+[^6]: https://www.ssh.com/academy/ssh/keygen#what-is-ssh-keygen?
+[^7]: https://docs.digitalocean.com/reference/doctl/reference/compute/
+[^8]: https://docs.digitalocean.com/reference/doctl/reference/compute/ssh-key/
+[^9]: https://docs.digitalocean.com/reference/doctl/reference/compute/ssh-key/import/
+[^10]: https://cloudinit.readthedocs.io/en/latest/explanation/introduction.html
