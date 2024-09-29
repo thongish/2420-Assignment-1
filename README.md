@@ -333,11 +333,36 @@ First, you'll need to get the IPv4 address your droplet is running on. You can u
 ```
 doctl compute droplet list
 ```
+<details>
+<summary>Command details</summary>
+
+- `list` - An option for `droplet` that will list all droplets, and their details, on your DigitalOcean account[^16].
+
+</details>
+
 Once you have the IPv4 address you can immediately try using SSH to connect to your droplet with this command:
 ```
 ssh -i ~/.ssh/<private key> <username>@<IPv4 address>
 ```
-But you can make this easier by creating an SSH configuration file and entering your droplet's information into it. Run this command to create your own SH configuration file:
+<details>
+<summary>Command details</summary>
+
+- `ssh` - Tells the system to use the OpenSSH program.
+- `-i` - An option for `ssh` that lets you specify a private key[^18].
+- `~/.ssh/<private key>` - The argument for `-i`. This is the file path to the SSH private key you created during this tutorial.
+- `<username>@<IPv4 address>` - This is an argument for `ssh` where you put the username you specified in your cloud-config.yml file and the IPv4 address you obtained from the command above.
+
+</details>
+
+You will be prompted by `ssh` asking whether you want to continue connecting.
+
+Type in "yes" and press **ENTER**.
+
+![Screenshot of SSH into new droplet](/assets/ssh.png)
+
+---
+
+But you can make this easier by creating an SSH configuration file and entering your droplet's information into it. Run this command to create your own SSH configuration file:
 ```
 nvim ~/.ssh/config
 ```
@@ -351,10 +376,28 @@ Host <droplet alias>
   StrictHostKeyChecking no
   UserKnownHostsFile /dev/null
 ```
-Now you should be able to connect to your by simply running this command:
+<details>
+<summary>SSH config file details</summary>
+
+- `Host <droplet alias>` - This line starts an entry for a specific SSH connection and the declarations within it will apply to this host[^19].
+  - `<droplet alias>` - Is a name you give to the host.
+- `HostName <droplet IPv4 address>` - Specifies the numeric IP address to connect to[^19].
+- `PreferredAuthentications` - Specifies the authentication method you want to use[^19].
+  - `publickey` - This tells `PreferredAuthentications` that you want to use the public key method of authentication.
+- `IdentityFile ~/.ssh/<private key>` - Specifies the identity file to be read when using `publickey` method of authentication[^19].
+- `StrictHostKeyChecking no` - Specifies if `ssh` should automatically add host keys to the `~/.ssh/known_hosts` file or not[^19].
+  - `no` tells `ssh` not to automatically add host keys.
+- `UserKnownHostsFile` - Specifies a file to use for known hosts database rather than using the default `~/.ssh/known_hosts` file[^19].
+  - `/dev/null` - This is a special file that discards anything written into it[^20].
+
+</details>
+
+Now you should be able to connect to your droplet by simply running this command:
 ```
 ssh <droplet alias>
 ```
+![Screenshot of SSH into new droplet using config alias](./assets/ssh-2.png)
+
 **Congrats! You've made it to the end of the tutorial!**
 
 [^1]: https://docs.digitalocean.com/reference/doctl/
@@ -374,3 +417,6 @@ ssh <droplet alias>
 [^15]: https://docs.digitalocean.com/reference/doctl/reference/compute/region/
 [^16]: https://docs.digitalocean.com/reference/doctl/reference/compute/droplet/
 [^17]: https://docs.digitalocean.com/reference/doctl/reference/compute/droplet/create/
+[^18]: https://www.ssh.com/academy/ssh/command
+[^19]: https://www.ssh.com/academy/ssh/config
+[^20]: https://www.digitalocean.com/community/tutorials/dev-null-in-linux
