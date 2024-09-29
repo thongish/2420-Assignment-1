@@ -258,12 +258,19 @@ It should look something like this:
 ---
 
 # Deploying the droplet
-Before running the command to deploy the droplet, you'll need to run some preliminary commands to get the IDs of your uploaded SSH key, custom Arch Linux image ID, and optionally, the region slug.
+Before running the command to deploy the droplet, you'll need to run some preliminary commands to get the IDs of your uploaded SSH key, custom Arch Linux image ID, and the region slug.
 
 1. This command will list your custom images with ID being the first piece of text:
 ```
 doctl compute image list-user
 ```
+<details>
+<summary>Command details</summary>
+
+- `image` - An option for `compute` that lets you manage images on your DigitalOcean account[^7].
+- `list-user` - An option for `image` that lists images created by the user[^14].
+
+</details>
 
 2. This command will list your SSH keys and their IDs:
 ```
@@ -274,13 +281,46 @@ doctl compute ssh-key list
 ```
 doctl compute region list
 ```
+<details>
+<summary>Command details</summary>
+
+- `region` - An option for `compute` that lets the user retrieve information about DigitalOcean datacenter regions[^15].
+- `list` - An option for `region` that will output a list of datacenter regions and their slugs[^15].
+
+</details>
+
 Once you have all the necessary information you need, you can run this command:
 
 ```
-doctl compute droplet create --image <image ID> --size s-1vcpu-1gb --ssh-keys <SSH key ID> --region <your preferred region slug> --user-data-file ~/cloud-config.yml --wait <droplet name>
+doctl compute droplet create --image <image ID> --size s-1vcpu-1gb --ssh-keys <SSH key ID> --region <preferred region slug> --user-data-file ~/cloud-config.yml --wait <droplet name>
 ```
+<details>
+<summary>Command details</summary>
+
+- `droplet` - An option for `compute` that allows the user to manage DigitalOcean droplets[^7].
+- `create` - An option for `droplet` to tell `doctl` to create a new droplet[^16].
+- `--image` - A required option for `droplet create` to specify an operating system image the droplet will use[^17].
+- `<image ID>` - The argument for `--image`. Insert the ID you got from the preliminary commands above.
+- `--size` - A required option for `droplet create` to specify the Droplet's hardware specifications[^17].
+- `s-1vcpu-1gb` - The argument for `--size`. It's a slug that indicates the hardware specifications.
+  - For the puroses of this tutorial, we use this as a default but you can look through a list of slugs by running the command `compute size list`
+- `--ssh-keys` - An option for `droplet create` that will embed an SSH key into the droplet's root account[^17].
+- `<SSH key ID>` - The argument for `--image`. Insert the ID you got from the preliminary commands above.
+- `--region` - An option for `droplet create` that specifies the region to create the droplet in[^17].
+- `<preferred region slug>` - The argument for `--region`. Insert the slug you chose from the preliminary commands above.
+- `--user-data-file` - An option for `droplet create` that allows you to use a shell script or cloud-init YAML file to run on the droplet's first boot[^17].
+- `~/cloud-config.yml` - The argument for `--user-data-file`. This is the path to the shell script or cloud-init YAML file.
+- `--wait` - An option for `droplet create` that tells the terminal to wait for the command to complete before letting the user run any other commands[^17].
+- `<droplet name>` - An argument for `droplet create` that let's you name your droplet.
+
+</details>
+
 >[!NOTE]
 >It may seem like your terminal froze, but just let it work and you'll eventually be greeted with an output detailing the information about the droplet you just created.
+
+The output should look similar to this:
+
+![Screenshot of droplet create command output](/assets/droplet-create.png)
 
 **Congrats! You just deployed a droplet using `doctl` and `cloud-init`! Now you just need to make sure everything worked.**
 
@@ -330,3 +370,7 @@ ssh <droplet alias>
 [^11]: https://cloudinit.readthedocs.io/en/latest/reference/examples.html
 [^12]: https://www.baeldung.com/linux/primary-vs-secondary-groups
 [^13]: https://cloudinit.readthedocs.io/en/latest/reference/base_config_reference.html
+[^14]: https://docs.digitalocean.com/reference/doctl/reference/compute/image/
+[^15]: https://docs.digitalocean.com/reference/doctl/reference/compute/region/
+[^16]: https://docs.digitalocean.com/reference/doctl/reference/compute/droplet/
+[^17]: https://docs.digitalocean.com/reference/doctl/reference/compute/droplet/create/
