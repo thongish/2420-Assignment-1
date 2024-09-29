@@ -13,8 +13,6 @@
 This tutorial will walk you through the process of using the tools `doctl`, and `cloud-init` to set up an Arch Linux droplet on DigitalOcean. 
 
 **Things we'll need:**
-<!-- - A local machine running the cloud version of Arch Linux -->
-<!-- - A local machine running Microsoft Windows 10/11 -->
 - A DigitalOcean account
 - An existing Arch Linux droplet
 - Neovim (or your preferred text editor)
@@ -23,13 +21,25 @@ This tutorial will walk you through the process of using the tools `doctl`, and 
 >You will be copying and pasting into your terminal frequently throughout this tutorial. If you're using Command Prompt or Windows Powershell, you can enable copy/paste by clicking the icon on the top left of your terminal and choosing the **Properties** option. Once inside the **Properties** window, make sure to check the **Use Ctrl+Shift+C/V as Copy/Paste** checkbox.
 ---
 
-# Installing and setting up doctl
-`doctl` is the official DigitalOcean command line interface that allows you to do things like creating, configuring, and destroying DigitalOcean resources, such as Droplets. 
+# Installing and setting up `doctl`
+`doctl` is the official DigitalOcean command line interface that allows you to do things like creating, configuring, and destroying DigitalOcean resources, such as Droplets[^1]. 
 
 To get started, run the command:
 ```
 sudo pacman -S doctl
 ```
+<details>
+<summary>Command details</summary>
+
+- `sudo` - Command that temporarily gives the user root privilege.
+- `pacman` - This is the package manager for Arch Linux.
+  - Package managers are used on Linux systems to install programs
+- `-S` - This is an option for `pacman` that stands for synchronize packages. It essentially installs a specified package from Arch's remote repositories[^2].
+- `doctl` - An argument given to the `-S` option that tells `pacman` to install `doctl`.
+
+
+</details>
+
 Once you've installed `doctl`, we'll have to create a DigitalOcean Personal Access Token. This token will give `doctl` access to your DigitalOcean account.
 
 1. Login to your DigitalOcean account
@@ -44,8 +54,6 @@ Once you've installed `doctl`, we'll have to create a DigitalOcean Personal Acce
 7. Click **Full Access** in the **Scopes** section
 8. Click **Generate Token**
 
-![Screenshot of DigitalOcean generate token](./assets/Token.png)
-
 >[!IMPORTANT]
 >Once you've finished those steps, your token will be generated and you'll be given a token string. The token string will be shown to you only **once**. Ensure you copy it and store it in a safe place as you'll need it to authenticate `doctl`.
 \
@@ -55,7 +63,16 @@ Next, we'll give `doctl` your newly generated token string. To do that, run this
 ```
 doctl auth init
 ```
-You will be prompted to enter your access token string.
+<details>
+<summary>Command details</summary>
+
+- `doctl` - This tells your system to run the `doctl` program.
+- `auth` - An option for `doctl` that allows you to use its authentication tools.
+- `init` - An option for `auth` that will initialize `doctl` to use your DigitalOcean account[^3].
+
+</details>
+
+You will be prompted to enter your access token string that you copied earlier.
 ![Screenshot of token prompt in terminal](/assets/token_prompt.png)
 
 Now that your token has been validated, let's check that `doctl` has access to your DigitalOcean account.
@@ -64,6 +81,14 @@ Type in this command:
 ```
 doctl account get
 ```
+<details>
+<summary>Command details</summary>
+
+- `account` - An option for `doctl` that allows you to retrieve information about your DigitalOcean accounts[^4].
+- `get` - An option for `account` that will tell `doctl` to retrieve account profile details[^4].
+
+</details>
+
 You should be faced with an output that looks like this:
 ```
 Email                      Droplet Limit    Email Verified    UUID                                        Status
@@ -81,7 +106,7 @@ From the repository linked earlier, you'll want to copy the link to the cloud im
 ![Screenshot of Arch Linux cloud image link](/assets/cloud_image_1.png)
 
 >[!TIP]
->You will often see some word or phrase between two angle brackets like this, `<word or phrase>`, throughout this tutorial. This means you need to type your own text here correlating to the word/phrase.
+>You will often see some word or phrase between two angle brackets like this, `<word or phrase>`, throughout this tutorial. This means you need to type your own text here corresponding to the word/phrase.
 
 Now that you have the Arch Linux cloud image link copied, we can run this next command to upload the image to your DigitalOcean account:
 ```
@@ -237,7 +262,8 @@ Now you should be able to connect to your by simply running this command:
 ssh <droplet alias>
 ```
 **Congrats! You've made it to the end of the tutorial!**
-<!--
-[^1]: doctl is a command-line interface tool used to interact with DigitalOcean's cloud services.
-[^2]: cloud-init is an industry standard tool used for cloud instance initialization. 
--->
+
+[^1]: https://docs.digitalocean.com/reference/doctl/
+[^2]: https://man.archlinux.org/man/pacman.8
+[^3]: https://docs.digitalocean.com/reference/doctl/reference/auth/
+[^4]: https://docs.digitalocean.com/reference/doctl/reference/account/
