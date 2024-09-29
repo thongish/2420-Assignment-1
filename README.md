@@ -31,6 +31,7 @@ sudo pacman -S doctl
 <details>
 <summary>Command details</summary>
 
+This command installs the package `doctl` to your system.
 - `sudo` - Command that temporarily gives the user root privilege.
 - `pacman` - This is the package manager for Arch Linux.
   - Package managers are used on Linux systems to install programs
@@ -66,6 +67,7 @@ doctl auth init
 <details>
 <summary>Command details</summary>
 
+This command starts the authentication process.
 - `doctl` - This tells your system to run the `doctl` program.
 - `auth` - An option for `doctl` that allows you to use its authentication tools.
 - `init` - An option for `auth` that will initialize `doctl` to use your DigitalOcean account[^3].
@@ -84,6 +86,7 @@ doctl account get
 <details>
 <summary>Command details</summary>
 
+This command retrieves information about accounts you've authenticated with `doctl`.
 - `account` - An option for `doctl` that allows you to retrieve information about your DigitalOcean accounts[^4].
 - `get` - An option for `account` that will tell `doctl` to retrieve account profile details[^4].
 
@@ -111,6 +114,7 @@ ssh-keygen -t ed25519 -f ~/.ssh/<key name> -C <youremail@email.com>
 <details>
 <summary>Command details</summary>
 
+This command creates an SSH key-pair using the ed25519 algorithm, saved into the default `~/.ssh/` folder.
 - `ssh-keygen` - A tool for creating new SSH key-pairs.
 - `-t` - An option for `ssh-keygen` that allows you to choose your preferred encryption algorithm 
 - `ed25519`- The argument for `-t` which is a new algorithm added to OpenSSH[^6].
@@ -132,6 +136,7 @@ doctl compute ssh-key import <key identifier> --public-key-file ~/.ssh/<key name
 <details>
 <summary>Command details</summary>
 
+This command imports a public SSH key from your computer to your DigitalOcean account.
 - `compute` - An option for `doctl` that lets the user use subcommands to manage DigitalOcean resources[^7].
 - `ssh-key` - An option for `compute` that lets the user manage their SSH keys[^7].
 - `import` - An option for `ssh-key` that will import an SSH public key from your computer to your DigitalOcean account[^8].
@@ -244,6 +249,7 @@ cat ~/cloud-config.yml
 <details>
 <summary>Command details</summary>
 
+This command will read the contents of the specified file and print it in the terminal.
 - `cat` - A tool used to read and output the contents of a given file.
 - `~/.ssh/cloud-config.yml` - The argument given to `cat` to read.
 
@@ -267,6 +273,7 @@ doctl compute image list-user
 <details>
 <summary>Command details</summary>
 
+This command will list all user-created images on a DigitalOcean account.
 - `image` - An option for `compute` that lets you manage images on your DigitalOcean account[^7].
 - `list-user` - An option for `image` that lists images created by the user[^14].
 
@@ -297,6 +304,7 @@ doctl compute droplet create --image <image ID> --size s-1vcpu-1gb --ssh-keys <S
 <details>
 <summary>Command details</summary>
 
+This command will create a new droplet on your DigitalOcean account using a custom image, ssh keys, and cloud-init configuration file.
 - `droplet` - An option for `compute` that allows the user to manage DigitalOcean droplets[^7].
 - `create` - An option for `droplet` to tell `doctl` to create a new droplet[^16].
 - `--image` - A required option for `droplet create` to specify an operating system image the droplet will use[^17].
@@ -392,7 +400,7 @@ Host <droplet alias>
 
 </details>
 
-Now you should be able to connect to your droplet by simply running this command:
+Now you should be able to connect to your droplet by simply running this command, where `<droplet alias>` is the `Host` you specified in the SSH config file:
 ```
 ssh <droplet alias>
 ```
